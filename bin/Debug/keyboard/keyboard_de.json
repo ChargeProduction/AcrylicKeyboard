@@ -1,0 +1,457 @@
+{
+	"title": "Deutsch",
+	"layouts": {
+		"alphanumeric": [
+			[
+				{
+					"displayText": "q",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "1"}
+					]
+				},
+				{
+					"displayText": "w",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "2"}
+					]
+				},
+				{
+					"displayText": "e",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "3"}
+					]
+				},
+				{
+					"displayText": "r",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "4"}
+					]
+				},
+				{
+					"displayText": "t",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "5"}
+					]
+				},
+				{
+					"displayText": "z",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "6"}
+					]
+				},
+				{
+					"displayText": "u",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "7"},
+						{ "displayText": "ü"}
+					]
+				},
+				{
+					"displayText": "i",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "8"}
+					]
+				},
+				{
+					"displayText": "o",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "9"},
+						{ "displayText": "ö"}
+					]
+				},
+				{
+					"displayText": "p",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "0"}
+					]
+				},
+				{
+					"icon": "\uE750",
+					"ignoreCap": true,
+					"action": "Delete",
+					"size": "*"
+				}
+			],
+			[
+				{
+					"size": "0.25",
+					"isVisible": false
+				},
+				{
+					"displayText": "a",
+					"extraKeys": [
+						{
+							"displayText": "ä"
+						}
+					]
+				},
+				{
+					"displayText": "s"
+				},
+				{
+					"displayText": "d"
+				},
+				{
+					"displayText": "f"
+				},
+				{
+					"displayText": "g"
+				},
+				{
+					"displayText": "h"
+				},
+				{
+					"displayText": "j"
+				},
+				{
+					"displayText": "k"
+				},
+				{
+					"displayText": "l"
+				},
+				{
+					"displayText": "'"
+				},
+				{
+					"icon": "\uE966",
+					"ignoreCap": true,
+					"action": "Enter",
+					"size": "*"
+				}
+			],
+			[
+				{
+					"id": "LEFT_CAPS",
+					"role": "Shift",
+					"icon": "\uE74A",
+					"activeIcon": "\uE74B",
+					"size": "*"
+				},
+				{
+					"displayText": "y"
+				},
+				{
+					"displayText": "x"
+				},
+				{
+					"displayText": "c"
+				},
+				{
+					"displayText": "v"
+				},
+				{
+					"displayText": "b"
+				},
+				{
+					"displayText": "n"
+				},
+				{
+					"displayText": "m"
+				},
+				{
+					"displayText": ",",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": ";"}
+					]
+				},
+				{
+					"displayText": ".",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": ":" }
+					]
+				},
+				{
+					"displayText": "?",
+					"showSecondaryText": true,
+					"extraKeys": [
+						{ "displayText": "!"}
+					]
+				},
+				{
+					"id": "RIGHT_CAPS",
+					"role": "Shift",
+					"icon": "\uE74A",
+					"activeIcon": "\uE74B",
+					"ignoreCap": true,
+					"size": "*"
+				}
+			],
+			[
+				{
+					"id": "SWITCH_LAYOUT",
+					"displayText": "&123",
+					"ignoreCap": true,
+					"role": "Special",
+					"action": "SwitchLayout",
+					"target": "special"
+				},
+				{
+					"displayText": "Strg",
+					"role": "Ctrl",
+					"ignoreCap": true,
+					"isModifier": true
+				},
+				{
+					"displayText": "Alt",
+					"role": "Alt",
+					"ignoreCap": true,
+					"isModifier": true
+				},
+				{
+					"insertionText": " ",
+					"size": "*"
+				},
+				{
+					"icon": "\uE76B",
+					"action": "CursorLeft",
+					"role": "Special"
+				},
+				{
+					"icon": "\uE76C",
+					"action": "CursorRight",
+					"role": "Special"
+				},
+				{
+					"displayText": "DEU",
+					"ignoreCap": true,
+					"role": "Special",
+					"extraKeys": [
+						{
+							"displayText": "ENG",
+							"action": "ChangeLanguage",
+							"ignoreCap": true,
+							"target": "EN",
+						}
+					]
+				},
+				{
+					"displayText": "RELOAD",
+					"ignoreCap": true,
+					"role": "Special",
+					"action": "ReloadKeyboard",
+					"size": "2"
+				}
+			]
+		],
+		"special": [
+			[
+				{
+					"displayText": "TAB",
+					"role": "Special",
+					"ignoreCap": true
+				},
+				{
+					"displayText": "!"
+				},
+				{
+					"displayText": "@"
+				},
+				{
+					"displayText": "#"
+				},
+				{
+					"displayText": "$"
+				},
+				{
+					"displayText": "€"
+				},
+				{
+					"displayText": "%"
+				},
+				{
+					"displayText": "&"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"displayText": "1"
+				},
+				{
+					"displayText": "2"
+				},
+				{
+					"displayText": "3"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"icon": "\uE750",
+					"ignoreCap": true,
+					"action": "Delete"
+				}
+			],
+			[
+				{
+					"displayText": "<",
+					"role": "Special",
+					"isVisible": false
+				},
+				{
+					"displayText": "("
+				},
+				{
+					"displayText": ")"
+				},
+				{
+					"displayText": "<"
+				},
+				{
+					"displayText": ">"
+				},
+				{
+					"displayText": "="
+				},
+				{
+					"displayText": "*"
+				},
+				{
+					"displayText": "+"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"displayText": "4"
+				},
+				{
+					"displayText": "5"
+				},
+				{
+					"displayText": "6"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"icon": "\uE966",
+					"ignoreCap": true,
+					"action": "Enter"
+				}
+			],
+			[
+				{
+					"displayText": ">",
+					"role": "Special",
+					"isVisible": false
+				},
+				{
+					"displayText": "\\"
+				},
+				{
+					"displayText": ";"
+				},
+				{
+					"displayText": ":"
+				},
+				{
+					"displayText": "\""
+				},
+				{
+					"displayText": "_"
+				},
+				{
+					"displayText": "-"
+				},
+				{
+					"displayText": "/"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"displayText": "7"
+				},
+				{
+					"displayText": "8"
+				},
+				{
+					"displayText": "9"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"isVisible": false
+				}
+			],
+			[
+				{
+					"id": "SWITCH_LAYOUT",
+					"displayText": "abc",
+					"ignoreCap": true,
+					"role": "Special",
+					"action": "SwitchLayout",
+					"target": "alphanumeric"
+				},
+				{
+					"displayText": "Strg",
+					"role": "Ctrl",
+					"ignoreCap": true,
+					"isModifier": true
+				},
+				{
+					"icon": "\uE76B",
+					"action": "CursorLeft",
+					"role": "Special"
+				},
+				{
+					"icon": "\uE76C",
+					"action": "CursorRight",
+					"role": "Special"
+				},
+				{
+					"insertionText": " ",
+					"size": "4"
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"size": "2",
+					"displayText": "0"
+				},
+				{
+					"displayText": ","
+				},
+				{
+					"size": "*",
+					"isVisible": false
+				},
+				{
+					"displayText": "DEU",
+					"ignoreCap": true,
+					"role": "Special",
+					"extraKeys": [
+						{
+							"displayText": "ENG",
+							"action": "ChangeLanguage",
+							"ignoreCap": true,
+							"target": "EN",
+						}
+					]
+				}
+			]
+		]
+	}
+}
