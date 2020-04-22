@@ -1,4 +1,4 @@
-# AcrylicKeyboard
+# AcrylicKeyboard (work in progress)
 A highly customizable alternative to windows touch keyboard using WPF.
 
 ## Warning: This is a very early release which may contain errors or slow code.
