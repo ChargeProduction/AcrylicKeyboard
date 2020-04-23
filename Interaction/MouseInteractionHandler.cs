@@ -116,7 +116,7 @@ namespace AcrylicKeyboard.Interaction
             }
 
             var newHoveringKey = renderer?.GetKeyAt((int) pointerPosition.X, (int) pointerPosition.Y);
-            if (newHoveringKey == null || hoveringKey.Settings.IsVisible)
+            if (newHoveringKey == null || newHoveringKey.Settings.IsVisible)
             {
                 if (downKey != newHoveringKey)
                 {

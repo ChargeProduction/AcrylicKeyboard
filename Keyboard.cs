@@ -50,6 +50,7 @@ namespace AcrylicKeyboard
         private Rect keyboardBounds;
         private int keyGap;
         private bool hasInitedRenderers;
+        private bool freezeLayout;
 
         private InputHandler inputHandler;
         private InputSimulator inputSimulator;
@@ -83,20 +84,23 @@ namespace AcrylicKeyboard
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            canvasSize = e.NewSize;
-            if (SizeResolver != null)
+            if (!freezeLayout)
             {
-                var result = SizeResolver.ResolveSize(canvasSize);
-                keyboardBounds = result.bounds;
-                keyGap = result.gap;
-            }
-            else
-            {
-                keyboardBounds = new Rect(0, 0, canvasSize.Width, canvasSize.Height);
-            }
+                canvasSize = e.NewSize;
+                if (SizeResolver != null)
+                {
+                    var result = SizeResolver.ResolveSize(canvasSize);
+                    keyboardBounds = result.bounds;
+                    keyGap = result.gap;
+                }
+                else
+                {
+                    keyboardBounds = new Rect(0, 0, canvasSize.Width, canvasSize.Height);
+                }
 
-            OnResize?.Invoke(this, new ResizeEventArgs(canvasSize, keyboardBounds));
-            InvalidateRenderer();
+                OnResize?.Invoke(this, new ResizeEventArgs(canvasSize, keyboardBounds));
+                InvalidateRenderer();
+            }
         }
 
         /// <summary>
@@ -417,6 +421,8 @@ namespace AcrylicKeyboard
         {
             Animator.Update(delta);
             NotifyRenderers(renderer => renderer.Update(this, delta));
+            KeyboardRenderer?.OnUpdate(delta);
+            PopupRenderer?.OnUpdate(delta);
             OnUpdate?.Invoke(this, delta);
         }
 
@@ -593,6 +599,25 @@ namespace AcrylicKeyboard
         {
             get => sizeResolver;
             set => sizeResolver = value;
+        }
+
+        /// <summary>
+        /// Determinies whether or not the resize event should trigger a render cycle.
+        /// </summary>
+        public bool FreezeLayout
+        {
+            get => freezeLayout;
+            set
+            {
+                if (freezeLayout != value)
+                {
+                    freezeLayout = value;
+                    if (!freezeLayout)
+                    {
+                        InvalidateRenderer();
+                    }
+                }
+            }
         }
 
         /// <summary>

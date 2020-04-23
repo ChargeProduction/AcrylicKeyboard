@@ -33,7 +33,7 @@ namespace AcrylicKeyboard.Renderer
 
         private void Init()
         {
-            animation.AddFrames(animation.NewBuilder().WithDuration(100).WithScale(0));
+            animation.AddFrames(animation.NewBuilder().WithDuration(0.1).WithScale(0));
             animation.AddFrames(animation.NewBuilder().WithScale(1));
         }
 

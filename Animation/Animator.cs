@@ -30,6 +30,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             var tmpRunningAnimations = runningAnimations;
             runningAnimations = activeAnimations;
             activeAnimations = tmpRunningAnimations;
+            activeAnimations.Clear();
         }
 
         /// <summary>

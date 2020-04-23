@@ -185,7 +185,7 @@ namespace AcrylicKeyboard.Renderer.Animation
                 {
                     var from = frames[currentIndex];
                     var to = frames[Math.Min(frames.Count - 1, currentIndex + 1)];
-                    currentFrame = from.LerpTo(to, interpolatedTime);
+                    currentFrame = from.LerpTo(to, (interpolatedTime - timeOffset) / from.Duration);
                 }
             }
         }

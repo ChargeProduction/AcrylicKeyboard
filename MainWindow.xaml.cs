@@ -29,6 +29,7 @@ namespace AcrylicKeyboard
 
         public MainWindow()
         {
+            Hide();
             VisualTextRenderingMode = TextRenderingMode.Auto;
             Loaded += OnLoaded;
 
@@ -37,7 +38,6 @@ namespace AcrylicKeyboard
             Left = targetBounds.X;
             Top = targetBounds.Y;
             Topmost = true;
-            Visibility = Visibility.Collapsed;
 
             InitializeComponent();
 
@@ -143,12 +143,12 @@ namespace AcrylicKeyboard
         {
             var startPosition = new TransformFrame
             {
-                Duration = 700,
+                Duration = 0.7,
                 Position = new dvec2(0, targetBounds.Top + Height)
             };
             var endPosition = new TransformFrame
             {
-                Duration = 500,
+                Duration = 0.5,
                 Position = new dvec2(0, targetBounds.Top)
             };
             if (reverse)
@@ -193,7 +193,7 @@ namespace AcrylicKeyboard
             WinApiHelper.EnableBlur(this, WinApiHelper.AccentState.ACCENT_ENABLE_BLURBEHIND);
             WinApiHelper.MakeUnfocusable(this);
             Keyboard.Animator.Play(topOffsetEnterAnimation);
-            Visibility = Visibility.Visible;
+            Show();
         }
 
         private void CloseButtonClicked(object sender, RoutedEventArgs e)
@@ -215,6 +215,7 @@ namespace AcrylicKeyboard
             RootElement.HorizontalAlignment = HorizontalAlignment.Left;
             RootElement.MinWidth = RootElement.ActualWidth;
             RootElement.MinHeight = RootElement.ActualHeight;
+            Keyboard.FreezeLayout = true;
         }
 
         public void FreeRootElement()
@@ -223,6 +224,7 @@ namespace AcrylicKeyboard
             RootElement.HorizontalAlignment = HorizontalAlignment.Stretch;
             RootElement.MinWidth = 0;
             RootElement.MinHeight = 0;
+            Keyboard.FreezeLayout = false;
         }
 
         public void SetWindowTop(double value)
