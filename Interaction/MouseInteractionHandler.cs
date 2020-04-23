@@ -11,8 +11,8 @@ namespace AcrylicKeyboard.Interaction
         private KeyInstance hoveringKey;
         private KeyInstance downKey;
         private Point pointerPosition;
-        private bool hasInvokedHoldingAction = false;
-        private UIElement capturedElement = null;
+        private bool hasInvokedHoldingAction;
+        private UIElement capturedElement;
 
         public MouseInteractionHandler(Keyboard keyboard) : base(keyboard)
         {
@@ -35,7 +35,7 @@ namespace AcrylicKeyboard.Interaction
         }
 
         /// <summary>
-        /// Checks which key was released and how it was released and can invoke the keys action.
+        ///     Checks which key was released and how it was released and can invoke the keys action.
         /// </summary>
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -47,6 +47,7 @@ namespace AcrylicKeyboard.Interaction
                     hasInvokedHoldingAction = false;
                     break;
             }
+
             if (downKey != null)
             {
                 SetMouseState(downKey, KeyMouseState.Hover);
@@ -65,7 +66,7 @@ namespace AcrylicKeyboard.Interaction
         }
 
         /// <summary>
-        /// Checks which key was pressed and updates its state.
+        ///     Checks which key was pressed and updates its state.
         /// </summary>
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -73,14 +74,14 @@ namespace AcrylicKeyboard.Interaction
             downKey = hoveringKey;
             SetMouseState(downKey, KeyMouseState.Down);
             KeyHoldingAction.InvokeDebounceAsync(downKey, OnHoldingCallback, KeyHoldingDelay);
-            
+
             // Capture the mouse to receive mouse up events even after the element was exited.
-            capturedElement = (UIElement)sender;
+            capturedElement = (UIElement) sender;
             capturedElement.CaptureMouse();
         }
 
         /// <summary>
-        /// The callback after a key was hold a specified amount of time.
+        ///     The callback after a key was hold a specified amount of time.
         /// </summary>
         private void OnHoldingCallback(KeyInstance obj)
         {
@@ -97,9 +98,9 @@ namespace AcrylicKeyboard.Interaction
             pointerPosition = e.GetPosition(Keyboard.Canvas);
             InvalidatePointerPosition();
         }
-        
+
         /// <summary>
-        /// Recalculates the currently hovering key.
+        ///     Recalculates the currently hovering key.
         /// </summary>
         public override void InvalidatePointerPosition()
         {
@@ -113,7 +114,8 @@ namespace AcrylicKeyboard.Interaction
                     renderer = Keyboard.PopupRenderer;
                     break;
             }
-            var newHoveringKey = renderer?.GetKeyAt((int)pointerPosition.X, (int)pointerPosition.Y);
+
+            var newHoveringKey = renderer?.GetKeyAt((int) pointerPosition.X, (int) pointerPosition.Y);
             if (newHoveringKey == null || hoveringKey.Settings.IsVisible)
             {
                 if (downKey != newHoveringKey)
@@ -142,7 +144,8 @@ namespace AcrylicKeyboard.Interaction
         private void SetMouseState(KeyInstance key, KeyMouseState value)
         {
             if (key != null)
-            {;
+            {
+                ;
                 key.MouseState = value;
                 Keyboard.InvalidateRenderer();
             }

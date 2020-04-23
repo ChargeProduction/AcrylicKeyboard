@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using AcrylicKeyboard.Interaction;
 
@@ -6,9 +5,9 @@ namespace AcrylicKeyboard.Events
 {
     public class KeyActionEventArgs
     {
-        private KeyboardAction action;
-        private String text;
-        private List<KeyModifier> activeModifiers;
+        private readonly KeyboardAction action;
+        private readonly string text;
+        private readonly List<KeyModifier> activeModifiers;
 
         public KeyActionEventArgs(KeyboardAction action, string text = null, List<KeyModifier> activeModifiers = null)
         {
@@ -18,17 +17,17 @@ namespace AcrylicKeyboard.Events
         }
 
         /// <summary>
-        /// Gets the key action.
+        ///     Gets the key action.
         /// </summary>
         public KeyboardAction Action => action;
 
         /// <summary>
-        /// Gets the inserted text.
+        ///     Gets the inserted text.
         /// </summary>
         public string Text => text;
 
         /// <summary>
-        /// Gets a list of active modifiers.
+        ///     Gets a list of active modifiers.
         /// </summary>
         public IReadOnlyList<KeyModifier> ActiveModifiers => activeModifiers;
     }

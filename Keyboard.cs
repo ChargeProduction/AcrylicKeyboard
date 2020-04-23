@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -39,14 +38,14 @@ namespace AcrylicKeyboard
         private readonly KeyboardPopupRenderer popupRenderer;
         private readonly Animator animator = new Animator();
         private readonly List<KeyModifier> activeKeyModifiers = new List<KeyModifier>();
-        private readonly Dictionary<String, String> configurationFiles = new Dictionary<String, String>();
+        private readonly Dictionary<string, string> configurationFiles = new Dictionary<string, string>();
 
-        private readonly Dictionary<String, KeyboardLayoutConfig> keyboards =
-            new Dictionary<String, KeyboardLayoutConfig>();
+        private readonly Dictionary<string, KeyboardLayoutConfig> keyboards =
+            new Dictionary<string, KeyboardLayoutConfig>();
 
         private KeyboardTheme theme;
-        private String selectedLanguage;
-        private String selectedLayout;
+        private string selectedLanguage;
+        private string selectedLayout;
         private Size canvasSize;
         private Rect keyboardBounds;
         private int keyGap;
@@ -101,10 +100,10 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Performs the action of the specified <see cref="KeyInstance"/>.
-        /// The action is always dispatched on the Dispatcher thread.
+        ///     Performs the action of the specified <see cref="KeyInstance" />.
+        ///     The action is always dispatched on the Dispatcher thread.
         /// </summary>
-        /// <param name="key">The <see cref="KeyInstance"/> of the action.</param>
+        /// <param name="key">The <see cref="KeyInstance" /> of the action.</param>
         /// <param name="isHolding">Determines whether or not the holding action should be invoked.</param>
         public void PerformAction(KeyInstance key, bool isHolding)
         {
@@ -209,9 +208,9 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Toggles a key role as modifier.
+        ///     Toggles a key role as modifier.
         /// </summary>
-        /// <param name="modifier">The <see cref="KeyModifier"/> to toggle.</param>
+        /// <param name="modifier">The <see cref="KeyModifier" /> to toggle.</param>
         private void ToggleModifier(KeyModifier modifier)
         {
             if (IsModifierActive(modifier))
@@ -225,9 +224,9 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Explicitly activates a key modifier.
+        ///     Explicitly activates a key modifier.
         /// </summary>
-        /// <param name="modifier">The <see cref="KeyModifier"/> to activate.</param>
+        /// <param name="modifier">The <see cref="KeyModifier" /> to activate.</param>
         private void ActivateModifier(KeyModifier modifier)
         {
             if (!activeKeyModifiers.Contains(modifier))
@@ -237,7 +236,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Disables all active key modifiers.
+        ///     Disables all active key modifiers.
         /// </summary>
         private void DisableAllModifiers()
         {
@@ -245,33 +244,33 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Explicitly disables a key modifier.
+        ///     Explicitly disables a key modifier.
         /// </summary>
-        /// <param name="modifier">The <see cref="KeyModifier"/> to disable.</param>
+        /// <param name="modifier">The <see cref="KeyModifier" /> to disable.</param>
         private void DisableModifier(KeyModifier modifier)
         {
             activeKeyModifiers.Remove(modifier);
         }
 
         /// <summary>
-        /// Moves the cared by a specified amount.
+        ///     Moves the cared by a specified amount.
         /// </summary>
         /// <param name="to">The amount of steps in a given direction. Below 0 is left.</param>
         private void MoveCaret(int to)
         {
             var keycode = to < 0 ? VirtualKeyCode.LEFT : VirtualKeyCode.RIGHT;
             to = Math.Abs(to);
-            for (int i = 0; i < to; i++)
+            for (var i = 0; i < to; i++)
             {
                 InputSimulator.Keyboard.KeyPress(keycode);
             }
         }
 
         /// <summary>
-        /// Simulates the insertion of a specified string.
+        ///     Simulates the insertion of a specified string.
         /// </summary>
         /// <param name="text">The string to insert.</param>
-        private void InsertText(String text)
+        private void InsertText(string text)
         {
             if (text == null) return;
 
@@ -284,7 +283,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Simulates the press of the return key.
+        ///     Simulates the press of the return key.
         /// </summary>
         private void PressReturnKey()
         {
@@ -293,11 +292,11 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Switches the layout to the given language and layout name.
+        ///     Switches the layout to the given language and layout name.
         /// </summary>
         /// <param name="language">The registered language to switch to.</param>
         /// <param name="layout">The registered layout to switch to.</param>
-        public void SwitchLayout(String language, String layout)
+        public void SwitchLayout(string language, string layout)
         {
             selectedLanguage = language;
             selectedLayout = layout;
@@ -311,7 +310,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Invalidates the layout and invokes the event.
+        ///     Invalidates the layout and invokes the event.
         /// </summary>
         private void InvalidateLayout()
         {
@@ -320,7 +319,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Simulates the press or release of a modifier key.
+        ///     Simulates the press or release of a modifier key.
         /// </summary>
         /// <param name="down">Determines whether or not the simulator should press down.</param>
         private void SetModifierKeyState(bool down)
@@ -355,7 +354,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Simulates a delete key press.
+        ///     Simulates a delete key press.
         /// </summary>
         private void DeleteText()
         {
@@ -363,7 +362,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Registers a file to a specified language.
+        ///     Registers a file to a specified language.
         /// </summary>
         /// <param name="language">The language of the file.</param>
         /// <param name="file">The file name.</param>
@@ -378,7 +377,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Reloads all registered keyboard files.
+        ///     Reloads all registered keyboard files.
         /// </summary>
         public void ReloadKeyboards()
         {
@@ -394,11 +393,11 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Registers a single keyboard file specified by language.
+        ///     Registers a single keyboard file specified by language.
         /// </summary>
         /// <param name="language">The language string.</param>
         /// <param name="file">The file name.</param>
-        private void LoadKeyboard(String language, String file)
+        private void LoadKeyboard(string language, string file)
         {
             keyboards[language] = KeyboardLayoutConfig.FromFile(file);
 
@@ -439,7 +438,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Invokes an action for all renderers.
+        ///     Invokes an action for all renderers.
         /// </summary>
         private void NotifyRenderers(Action<KeyRenderer> action)
         {
@@ -458,15 +457,12 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets the selected language;
+        ///     Gets the selected language;
         /// </summary>
-        public string SelectedLanguage
-        {
-            get => selectedLanguage;
-        }
+        public string SelectedLanguage => selectedLanguage;
 
         /// <summary>
-        /// Determines whether or not a specified <see cref="KeyModifier"/> is active.
+        ///     Determines whether or not a specified <see cref="KeyModifier" /> is active.
         /// </summary>
         public bool IsModifierActive(KeyModifier modifier)
         {
@@ -474,7 +470,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Returns the current <see cref="KeyboardLayoutConfig"/>. 
+        ///     Returns the current <see cref="KeyboardLayoutConfig" />.
         /// </summary>
         public KeyboardLayoutConfig GetLayoutConfig()
         {
@@ -487,14 +483,14 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Returns a upper or lower case variant of a specified string depending on an active
-        /// <see cref="KeyModifier.Shift"/> modifier.
-        /// If <see cref="KeySettings.IgnoreCap"/> is set to true, no changes will be made.
+        ///     Returns a upper or lower case variant of a specified string depending on an active
+        ///     <see cref="KeyModifier.Shift" /> modifier.
+        ///     If <see cref="KeySettings.IgnoreCap" /> is set to true, no changes will be made.
         /// </summary>
         /// <param name="settings">The keys settings.</param>
         /// <param name="text">The string to transform.</param>
         /// <returns>A lower or upper variant of the string.</returns>
-        public String GetKeyText(KeySettings settings, String text)
+        public string GetKeyText(KeySettings settings, string text)
         {
             if (settings != null && !settings.IgnoreCap && text != null)
             {
@@ -510,7 +506,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets the selected layout.
+        ///     Gets the selected layout.
         /// </summary>
         public string SelectedLayout => selectedLayout;
 
@@ -520,7 +516,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets or sets the keyboard theme.
+        ///     Gets or sets the keyboard theme.
         /// </summary>
         public KeyboardTheme Theme
         {
@@ -534,22 +530,22 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets the <see cref="DrawingCanvas"/>.
+        ///     Gets the <see cref="DrawingCanvas" />.
         /// </summary>
         public DrawingCanvas Canvas => canvas;
 
         /// <summary>
-        /// Gets the keyboard bounds.
+        ///     Gets the keyboard bounds.
         /// </summary>
         public Rect KeyboardBounds => keyboardBounds;
 
         /// <summary>
-        /// Determines whether or not the keyboard has a selected <see cref="KeyboardLayoutConfig"/>.
+        ///     Determines whether or not the keyboard has a selected <see cref="KeyboardLayoutConfig" />.
         /// </summary>
         private bool HasConfig => SelectedLanguage != null && keyboards.ContainsKey(SelectedLanguage);
 
         /// <summary>
-        /// Gets or sets the <see cref="InputHandler"/>.
+        ///     Gets or sets the <see cref="InputHandler" />.
         /// </summary>
         public InputHandler InputHandler
         {
@@ -562,27 +558,27 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets the key gap.
+        ///     Gets the key gap.
         /// </summary>
         public int KeyGap => keyGap;
 
         /// <summary>
-        /// Gets the <see cref="Animator"/>.
+        ///     Gets the <see cref="Animator" />.
         /// </summary>
         public Animator Animator => animator;
 
         /// <summary>
-        /// Gets the <see cref="KeyboardRenderer"/>.
+        ///     Gets the <see cref="KeyboardRenderer" />.
         /// </summary>
         public KeyboardRenderer KeyboardRenderer => keyboardRenderer;
 
         /// <summary>
-        /// Gets the <see cref="KeyboardPopupRenderer"/>.
+        ///     Gets the <see cref="KeyboardPopupRenderer" />.
         /// </summary>
         public KeyboardPopupRenderer PopupRenderer => popupRenderer;
 
         /// <summary>
-        /// Gets or sets the <see cref="InputSimulator"/>.
+        ///     Gets or sets the <see cref="InputSimulator" />.
         /// </summary>
         public InputSimulator InputSimulator
         {
@@ -591,7 +587,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="SizeResolver"/>.
+        ///     Gets or sets the <see cref="SizeResolver" />.
         /// </summary>
         public IKeyboardSizeResolver SizeResolver
         {
@@ -600,7 +596,7 @@ namespace AcrylicKeyboard
         }
 
         /// <summary>
-        /// Invalidates the canvas and forces redraw.
+        ///     Invalidates the canvas and forces redraw.
         /// </summary>
         public void InvalidateRenderer()
         {

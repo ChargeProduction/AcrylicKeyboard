@@ -4,8 +4,8 @@ namespace AcrylicKeyboard.Renderer.Animation
 {
     public class AnimatorEntry
     {
-        private TransformAnimation animation;
-        private Action<Animator, TransformAnimation> onUpdate;
+        private readonly TransformAnimation animation;
+        private readonly Action<Animator, TransformAnimation> onUpdate;
 
         public AnimatorEntry(TransformAnimation animation, Action<Animator, TransformAnimation> onUpdate)
         {
@@ -14,12 +14,12 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// The stored animation.
+        ///     The stored animation.
         /// </summary>
         public TransformAnimation Animation => animation;
 
         /// <summary>
-        /// The stored update callback action.
+        ///     The stored update callback action.
         /// </summary>
         public Action<Animator, TransformAnimation> OnUpdate => onUpdate;
     }

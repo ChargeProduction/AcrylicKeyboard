@@ -4,7 +4,7 @@ namespace AcrylicKeyboard.Events
 {
     public class ThemeChangedEventArgs
     {
-        private KeyboardTheme theme;
+        private readonly KeyboardTheme theme;
 
         public ThemeChangedEventArgs(KeyboardTheme theme)
         {
@@ -12,7 +12,7 @@ namespace AcrylicKeyboard.Events
         }
 
         /// <summary>
-        /// Gets the new keyboard theme.
+        ///     Gets the new keyboard theme.
         /// </summary>
         public KeyboardTheme Theme => theme;
     }

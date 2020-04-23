@@ -8,12 +8,12 @@ namespace AcrylicKeyboard.Interaction
 {
     public class KeyHoldingAction
     {
-        private static object syncLock = new object();
-        private static int holdingReference = 0;
-        
+        private static readonly object syncLock = new object();
+        private static int holdingReference;
+
         /// <summary>
-        /// Creates an asynchronous tasks which will only invoke the callback if this method was not
-        /// called during the defined delay.
+        ///     Creates an asynchronous tasks which will only invoke the callback if this method was not
+        ///     called during the defined delay.
         /// </summary>
         /// <param name="key">The key object.</param>
         /// <param name="callback">The callback which will be called after the delay.</param>
@@ -21,7 +21,7 @@ namespace AcrylicKeyboard.Interaction
         public static void InvokeDebounceAsync(KeyInstance key, Action<KeyInstance> callback, int delayMs)
         {
             Debug.Assert(delayMs >= 0);
-            int currentReference = ++holdingReference;
+            var currentReference = ++holdingReference;
             Task.Run(() =>
             {
                 Thread.Sleep(delayMs);

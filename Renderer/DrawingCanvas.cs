@@ -9,12 +9,12 @@ namespace AcrylicKeyboard.Renderer
     public class DrawingCanvas : Panel, IDisposable
     {
         private double fps;
-        private MovingAverage fpsMovingAverage = new MovingAverage(60);
+        private readonly MovingAverage fpsMovingAverage = new MovingAverage(60);
         private double cycleTime;
         private Stopwatch watch;
-        private Action<double> onUpdate;
-        private Action<DrawingContext> onRender;
-        private DrawingGroup backingStore = new DrawingGroup();
+        private readonly Action<double> onUpdate;
+        private readonly Action<DrawingContext> onRender;
+        private readonly DrawingGroup backingStore = new DrawingGroup();
         private bool isInvalidated = true;
 
         /// <param name="onUpdate">Callback on update</param>
@@ -35,7 +35,7 @@ namespace AcrylicKeyboard.Renderer
             }
             else
             {
-                double delta = watch.Elapsed.TotalMilliseconds / 1000.0;
+                var delta = watch.Elapsed.TotalMilliseconds / 1000.0;
                 watch.Reset();
                 watch.Start();
 
@@ -55,7 +55,7 @@ namespace AcrylicKeyboard.Renderer
         }
 
         /// <summary>
-        /// If the renderer is invalidated, the frame is being rendered into the backing store.
+        ///     If the renderer is invalidated, the frame is being rendered into the backing store.
         /// </summary>
         private void RenderFrame()
         {
@@ -69,7 +69,7 @@ namespace AcrylicKeyboard.Renderer
         }
 
         /// <summary>
-        /// Invalidates the renderer and forces redraw.
+        ///     Invalidates the renderer and forces redraw.
         /// </summary>
         internal void InvalidateRender()
         {
@@ -82,17 +82,17 @@ namespace AcrylicKeyboard.Renderer
         }
 
         /// <summary>
-        /// Gets the current frames per second.
+        ///     Gets the current frames per second.
         /// </summary>
         public double Fps => fps;
-        
+
         /// <summary>
-        /// Gets an average frames per second of the last 60 probes.
+        ///     Gets an average frames per second of the last 60 probes.
         /// </summary>
         public double SmoothFps => fpsMovingAverage.Value;
 
         /// <summary>
-        /// Gets the last cycle time which only includes updating and rendering.
+        ///     Gets the last cycle time which only includes updating and rendering.
         /// </summary>
         public double CycleTime => cycleTime;
     }

@@ -8,9 +8,9 @@ namespace AcrylicKeyboard.Renderer.Animation
     {
         private List<AnimatorEntry> runningAnimations = new List<AnimatorEntry>();
         private List<AnimatorEntry> activeAnimations = new List<AnimatorEntry>();
-        
+
         /// <summary>
-        /// Updates all running animations.
+        ///     Updates all running animations.
         /// </summary>
         /// <param name="delta">The time difference from the previous frame in seconds.</param>
         internal void Update(double delta)
@@ -33,7 +33,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Plays the given animation.
+        ///     Plays the given animation.
         /// </summary>
         /// <param name="animation">The animation to play.</param>
         /// <param name="onUpdateCallback">An optional callback action which is called on update.</param>
@@ -43,12 +43,13 @@ namespace AcrylicKeyboard.Renderer.Animation
             {
                 animation.End();
             }
+
             runningAnimations.Add(new AnimatorEntry(animation, onUpdateCallback));
             animation.Start();
         }
 
         /// <summary>
-        /// Returns an enumerable copy of all running animations.
+        ///     Returns an enumerable copy of all running animations.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<TransformAnimation> GetRunningAnimations()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
 using GlmSharp;
@@ -10,11 +9,12 @@ namespace AcrylicKeyboard.Renderer.Animation
     public class TransformAnimation
     {
         public delegate void ModifyTransformFrameDelegate(ref Builder builder);
+
         public delegate void OnFinishDelegate(TransformAnimation sender);
-        
-        private List<TransformFrame> frames = new List<TransformFrame>();
-        private Stack<int> pushedTransforms = new Stack<int>();
-        
+
+        private readonly List<TransformFrame> frames = new List<TransformFrame>();
+        private readonly Stack<int> pushedTransforms = new Stack<int>();
+
         private int currentIndex;
         private double time;
         private double interpolatedTime;
@@ -30,9 +30,9 @@ namespace AcrylicKeyboard.Renderer.Animation
         public event OnFinishDelegate OnFinish;
 
         /// <summary>
-        /// Adds a frame to the end of the animation.
+        ///     Adds a frame to the end of the animation.
         /// </summary>
-        /// <param name="frame">The <see cref="TransformFrame"/> to add.</param>
+        /// <param name="frame">The <see cref="TransformFrame" /> to add.</param>
         public void AddFrame(TransformFrame frame)
         {
             frames.Add(frame);
@@ -40,7 +40,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Adjusts the <see cref="TransformFrame"/> of the specified index using a builder.
+        ///     Adjusts the <see cref="TransformFrame" /> of the specified index using a builder.
         /// </summary>
         /// <param name="index">The index to adjust.</param>
         /// <param name="index">The function which performs the adjustment.</param>
@@ -57,9 +57,9 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Adds a list of <see cref="TransformFrame"/> items from a specified <see cref="ITransformBuilder"/>.
+        ///     Adds a list of <see cref="TransformFrame" /> items from a specified <see cref="ITransformBuilder" />.
         /// </summary>
-        /// <param name="builder">The <see cref="ITransformBuilder"/> which stores the <see cref="TransformFrame"/> items.</param>
+        /// <param name="builder">The <see cref="ITransformBuilder" /> which stores the <see cref="TransformFrame" /> items.</param>
         public void AddFrames(ITransformBuilder builder)
         {
             if (builder != null)
@@ -70,37 +70,40 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Pushes the current frame to the specified <see cref="DrawingContext"/> and stores the information of this action.
+        ///     Pushes the current frame to the specified <see cref="DrawingContext" /> and stores the information of this action.
         /// </summary>
-        /// <param name="context">The <see cref="DrawingContext"/> which should push the transforms.</param>
+        /// <param name="context">The <see cref="DrawingContext" /> which should push the transforms.</param>
         public void PushTransform(DrawingContext context)
         {
-            int transformCounter = 0;
+            var transformCounter = 0;
             if (CurrentFrame.Position.LengthSqr > 0)
             {
                 context.PushTransform(new TranslateTransform(CurrentFrame.Position.x, CurrentFrame.Position.y));
             }
+
             if (CurrentFrame.AngleDeg != 0)
             {
                 context.PushTransform(new RotateTransform(CurrentFrame.AngleDeg));
             }
+
             if (CurrentFrame.Scale.x != 1 && CurrentFrame.Scale.y != 1)
             {
                 context.PushTransform(new ScaleTransform(CurrentFrame.Scale.x, CurrentFrame.Scale.y));
             }
+
             pushedTransforms.Push(transformCounter);
         }
 
         /// <summary>
-        /// Pops all transformations which were stored in <see cref="PushTransform"/>.
+        ///     Pops all transformations which were stored in <see cref="PushTransform" />.
         /// </summary>
-        /// <param name="context">The <see cref="DrawingContext"/> which should pop the transforms.</param>
+        /// <param name="context">The <see cref="DrawingContext" /> which should pop the transforms.</param>
         public void Pop(DrawingContext context)
         {
             if (pushedTransforms.Count > 0)
             {
-                int transformCounter = pushedTransforms.Pop();
-                for (int i = 0; i < transformCounter; i++)
+                var transformCounter = pushedTransforms.Pop();
+                for (var i = 0; i < transformCounter; i++)
                 {
                     context.Pop();
                 }
@@ -108,7 +111,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Updates the total animation duration.
+        ///     Updates the total animation duration.
         /// </summary>
         private void UpdateTotalDuration()
         {
@@ -120,7 +123,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Starts the animation.
+        ///     Starts the animation.
         /// </summary>
         internal void Start()
         {
@@ -133,7 +136,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Cleans up after the animation has ended or should end.
+        ///     Cleans up after the animation has ended or should end.
         /// </summary>
         internal void End()
         {
@@ -143,13 +146,13 @@ namespace AcrylicKeyboard.Renderer.Animation
             hasStarted = false;
             OnFinish?.Invoke(this);
         }
-        
+
         /// <summary>
-        /// Updates the animation by a given timestep.
-        /// Current time value is offset by the timestep and interpolated using the given equation.
-        /// Then the next frame is queried which may skip some frames in between.
-        /// Finally the current and next <see cref="TransformFrame"/> are interpolated and 
-        /// the <see cref="CurrentFrame"/> is updated.
+        ///     Updates the animation by a given timestep.
+        ///     Current time value is offset by the timestep and interpolated using the given equation.
+        ///     Then the next frame is queried which may skip some frames in between.
+        ///     Finally the current and next <see cref="TransformFrame" /> are interpolated and
+        ///     the <see cref="CurrentFrame" /> is updated.
         /// </summary>
         /// <param name="delta"></param>
         internal void Update(double delta)
@@ -159,7 +162,8 @@ namespace AcrylicKeyboard.Renderer.Animation
                 time += delta;
                 interpolatedTime = Easings.Interpolate(time / totalDuration, EasingFunction) * totalDuration;
                 TransformFrame frame;
-                while (currentIndex < frames.Count - 1 && interpolatedTime > (frame = frames[currentIndex]).Duration + timeOffset)
+                while (currentIndex < frames.Count - 1 &&
+                       interpolatedTime > (frame = frames[currentIndex]).Duration + timeOffset)
                 {
                     timeOffset += frame.Duration;
                     currentIndex++;
@@ -187,51 +191,51 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Gets the current interpolated frame.
+        ///     Gets the current interpolated frame.
         /// </summary>
         public TransformFrame CurrentFrame => currentFrame;
 
         /// <summary>
-        /// Gets a list of all frames of this animations
+        ///     Gets a list of all frames of this animations
         /// </summary>
         public IReadOnlyList<TransformFrame> Frames => frames;
 
         /// <summary>
-        /// Gets the current index of the frame.
+        ///     Gets the current index of the frame.
         /// </summary>
         public int CurrentIndex => currentIndex;
 
         /// <summary>
-        /// Gets the current animation time in seconds.
+        ///     Gets the current animation time in seconds.
         /// </summary>
         public double Time => time;
 
         /// <summary>
-        /// Gets the total animation time in seconds;
+        ///     Gets the total animation time in seconds;
         /// </summary>
         public double TotalDuration => totalDuration;
 
         /// <summary>
-        /// Determines whether or not the animation has started.
+        ///     Determines whether or not the animation has started.
         /// </summary>
         public bool HasStarted => hasStarted;
 
         /// <summary>
-        /// Determines whether or not the animation has finished.
+        ///     Determines whether or not the animation has finished.
         /// </summary>
         public bool HasFinished => hasFinished;
-        
+
         /// <summary>
-        /// Gets or sets the maximum amount of iterations. 0 or below is infinite.
+        ///     Gets or sets the maximum amount of iterations. 0 or below is infinite.
         /// </summary>
         public int MaxIterations
         {
             get => maxIterations;
             set => maxIterations = value;
         }
-        
+
         /// <summary>
-        /// Gets or sets the easing function for the whole animation timeline.
+        ///     Gets or sets the easing function for the whole animation timeline.
         /// </summary>
         public Easings.EasingFunction EasingFunction
         {
@@ -240,7 +244,7 @@ namespace AcrylicKeyboard.Renderer.Animation
         }
 
         /// <summary>
-        /// Creates a new animation builder.
+        ///     Creates a new animation builder.
         /// </summary>
         /// <returns></returns>
         public Builder NewBuilder()
@@ -253,7 +257,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             public TransformFrame Result;
 
             /// <summary>
-            /// Sets the position of the transform.
+            ///     Sets the position of the transform.
             /// </summary>
             public Builder WithPosition(double x, double y)
             {
@@ -261,7 +265,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the position of the transform.
+            ///     Sets the position of the transform.
             /// </summary>
             public Builder WithPosition(dvec2 position)
             {
@@ -270,7 +274,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the scale of the transform.
+            ///     Sets the scale of the transform.
             /// </summary>
             public Builder WithScale(double scale)
             {
@@ -278,7 +282,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the scale of the transform.
+            ///     Sets the scale of the transform.
             /// </summary>
             public Builder WithScale(double width, double height)
             {
@@ -286,7 +290,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the scale of the transform.
+            ///     Sets the scale of the transform.
             /// </summary>
             public Builder WithScale(dvec2 scale)
             {
@@ -295,7 +299,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the rotation angle by degrees of the transform.
+            ///     Sets the rotation angle by degrees of the transform.
             /// </summary>
             public Builder WithAngle(double angleDeg)
             {
@@ -304,7 +308,7 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Sets the duration in seconds of the transform.
+            ///     Sets the duration in seconds of the transform.
             /// </summary>
             public Builder WithDuration(double duration)
             {
@@ -313,11 +317,11 @@ namespace AcrylicKeyboard.Renderer.Animation
             }
 
             /// <summary>
-            /// Returns all frames as a list.
+            ///     Returns all frames as a list.
             /// </summary>
             public List<TransformFrame> GetFrames()
             {
-                return new List<TransformFrame> { Result };
+                return new List<TransformFrame> {Result};
             }
         }
     }

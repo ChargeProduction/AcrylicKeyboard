@@ -1,4 +1,3 @@
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
@@ -7,8 +6,8 @@ namespace AcrylicKeyboard.Renderer
 {
     public class KeyGeometryBuilder
     {
-        private FontFamily font;
-        private String text;
+        private readonly FontFamily font;
+        private string text;
         private FormattedText formattedText;
         private bool isDirty = true;
 
@@ -18,11 +17,11 @@ namespace AcrylicKeyboard.Renderer
         }
 
         /// <summary>
-        /// Creates the new formatted text object.
+        ///     Creates the new formatted text object.
         /// </summary>
         private void BuildText()
         {
-            if (!String.IsNullOrEmpty(text?.Trim()))
+            if (!string.IsNullOrEmpty(text?.Trim()))
             {
                 formattedText = new FormattedText(text, CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                     new Typeface(font, FontStyles.Normal, FontWeights.Thin, FontStretches.Normal), 15,
@@ -32,7 +31,7 @@ namespace AcrylicKeyboard.Renderer
         }
 
         /// <summary>
-        /// Gets the formatted text object.
+        ///     Gets the formatted text object.
         /// </summary>
         public FormattedText FormattedText
         {
@@ -42,19 +41,20 @@ namespace AcrylicKeyboard.Renderer
                 {
                     BuildText();
                 }
+
                 return formattedText;
             }
         }
 
         /// <summary>
-        /// Gets or sets the text.
+        ///     Gets or sets the text.
         /// </summary>
         public string Text
         {
             get => text;
             set
             {
-                if (!String.Equals(text, value))
+                if (!string.Equals(text, value))
                 {
                     text = value;
                     isDirty = true;

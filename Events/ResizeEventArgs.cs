@@ -4,8 +4,8 @@ namespace AcrylicKeyboard.Events
 {
     public class ResizeEventArgs
     {
-        private Size canvasSize;
-        private Rect keyboardBounds;
+        private readonly Size canvasSize;
+        private readonly Rect keyboardBounds;
 
         public ResizeEventArgs(Size canvasSize, Rect keyboardBounds)
         {
@@ -14,12 +14,12 @@ namespace AcrylicKeyboard.Events
         }
 
         /// <summary>
-        /// Gets the new canvas size.
+        ///     Gets the new canvas size.
         /// </summary>
         public Size CanvasSize => canvasSize;
 
         /// <summary>
-        /// Gets the new keyboard bounds.
+        ///     Gets the new keyboard bounds.
         /// </summary>
         public Rect KeyboardBounds => keyboardBounds;
     }

@@ -2,19 +2,19 @@ namespace BitfinexTrader
 {
     public class MovingAverage
     {
-        private double[] numbers;
+        private readonly double[] numbers;
         private int index;
         private int count;
         private double value;
         private bool needsUpdate;
-        
+
         public MovingAverage(int count)
         {
             numbers = new double[count];
         }
 
         /// <summary>
-        /// Pushed a value to the array.
+        ///     Pushed a value to the array.
         /// </summary>
         /// <param name="value"></param>
         public void Push(double value)
@@ -31,7 +31,7 @@ namespace BitfinexTrader
         }
 
         /// <summary>
-        /// Updates the moving average value.
+        ///     Updates the moving average value.
         /// </summary>
         private void Update()
         {
@@ -45,7 +45,7 @@ namespace BitfinexTrader
         }
 
         /// <summary>
-        /// Gets the average value of the array.
+        ///     Gets the average value of the array.
         /// </summary>
         public double Value
         {
