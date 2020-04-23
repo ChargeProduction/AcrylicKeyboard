@@ -12,13 +12,15 @@ namespace AcrylicKeyboard.Renderer
 {
     public class KeyboardPopupRenderer : IKeyGroupRenderer
     {
-        private Keyboard keyboard;
+        private readonly Keyboard keyboard;
         private KeyInstance targetKey;
-        private SolidColorBrush background = new SolidColorBrush(Colors.Fuchsia);
-        private List<KeyInstance> popupKeys = new List<KeyInstance>();
-        private List<KeyValuePair<KeyInstance, KeyRenderer>> renderList = new List<KeyValuePair<KeyInstance, KeyRenderer>>();
-        
-        private TransformAnimation animation = new TransformAnimation();
+        private readonly SolidColorBrush background = new SolidColorBrush(Colors.Fuchsia);
+        private readonly List<KeyInstance> popupKeys = new List<KeyInstance>();
+
+        private readonly List<KeyValuePair<KeyInstance, KeyRenderer>> renderList =
+            new List<KeyValuePair<KeyInstance, KeyRenderer>>();
+
+        private readonly TransformAnimation animation = new TransformAnimation();
 
         private Rect bounds;
 
@@ -31,58 +33,78 @@ namespace AcrylicKeyboard.Renderer
 
         private void Init()
         {
-            animation.AddFrame(new TransformAnimation.Builder().WithDuration(100).WithScale(0));
-            animation.AddFrame(new TransformAnimation.Builder().WithScale(1));
+            animation.AddFrames(animation.NewBuilder().WithDuration(0.1).WithScale(0));
+            animation.AddFrames(animation.NewBuilder().WithScale(1));
         }
 
+        /// <summary>
+        ///     Shows the popup by setting the target key.
+        /// </summary>
+        /// <param name="key">The <see cref="KeyInstance" /> at which the popup should open.</param>
         public void ShowPopup(KeyInstance key)
         {
             Debug.Assert(key != null);
-            this.targetKey = key;
+            targetKey = key;
             CreatePopupKeys();
-            animation.Start();
+            Keyboard.Animator.Play(animation);
         }
 
+        /// <summary>
+        ///     Hides the popup by setting the target key to null.
+        /// </summary>
         public void HidePopup()
         {
             animation.End();
-            this.targetKey = null;
+            targetKey = null;
             Keyboard.InputHandler.InteractionMode = InteractionMode.Keyboard;
         }
 
-        public void OnRender(DrawingContext c)
+        public void OnUpdate(double delta)
         {
             if (IsVisible)
             {
-                animation.Update();
                 for (var i = 0; i < popupKeys.Count; i++)
                 {
-                    popupKeys[i].OnUpdate();
+                    popupKeys[i].OnUpdate(delta);
                 }
-                c.PushTransform(new TranslateTransform(Bounds.X, Bounds.Y));
-                animation.PushTransform(c);
-                
-                RenderBase(c);
-                for (var i = 0; i < renderList.Count; i++)
-                {
-                    renderList[i].Value.Render(Keyboard, c, renderList[i].Key, this);
-                }
-                
-                animation.Pop(c);
-                c.Pop();
             }
         }
 
-        private void RenderBase(DrawingContext c)
+        public void OnRender(DrawingContext context)
+        {
+            if (IsVisible)
+            {
+                context.PushTransform(new TranslateTransform(Bounds.X, Bounds.Y));
+                animation.PushTransform(context);
+
+                RenderBase(context);
+                for (var i = 0; i < renderList.Count; i++)
+                {
+                    renderList[i].Value.Render(Keyboard, context, renderList[i].Key, this);
+                }
+
+                animation.Pop(context);
+                context.Pop();
+            }
+        }
+
+        /// <summary>
+        ///     Renders the popups background.
+        /// </summary>
+        private void RenderBase(DrawingContext context)
         {
             var backgroundColor = Keyboard.Theme.GetColor(ThemeColor.PopupBackground);
             if (background.Color != backgroundColor)
             {
                 background.Color = backgroundColor;
             }
-            c.DrawRectangle(background, null, new Rect(0, 0, Bounds.Width, Bounds.Height));
+
+            context.DrawRectangle(background, null, new Rect(0, 0, Bounds.Width, Bounds.Height));
         }
 
+        /// <summary>
+        ///     Recreates the <see cref="KeyInstance" /> list which will be shown in the popup.
+        /// </summary>
         private void CreatePopupKeys()
         {
             renderList.Clear();
@@ -107,9 +129,13 @@ namespace AcrylicKeyboard.Renderer
 
                 CalculateBounds();
             }
+
             Keyboard.InputHandler?.InvalidatePointerPosition();
         }
 
+        /// <summary>
+        ///     Inserts the target key at the fron or back, depending on the location of the popup.
+        /// </summary>
         private void InsertTargetKey()
         {
             var targetClone = new KeyInstance();
@@ -117,7 +143,7 @@ namespace AcrylicKeyboard.Renderer
             targetClone.Settings.ExtraKeys = null;
             targetClone.Settings.ShowSecondaryKey = false;
             var targetRenderer = Keyboard.Theme.GetRenderer(targetKey.Settings.Role);
-            bool onLeftOfScreen = targetKey.Bounds.X < Keyboard.KeyboardBounds.Width / 2;
+            var onLeftOfScreen = targetKey.Bounds.X < Keyboard.KeyboardBounds.Width / 2;
             if (onLeftOfScreen)
             {
                 popupKeys.Insert(0, targetClone);
@@ -126,9 +152,13 @@ namespace AcrylicKeyboard.Renderer
             {
                 popupKeys.Insert(popupKeys.Count, targetClone);
             }
+
             renderList.Add(new KeyValuePair<KeyInstance, KeyRenderer>(targetClone, targetRenderer));
         }
 
+        /// <summary>
+        ///     Calculates bounds for every key in the popup.
+        /// </summary>
         private void CalculateBounds()
         {
             if (targetKey != null)
@@ -137,12 +167,12 @@ namespace AcrylicKeyboard.Renderer
                 var height = Keyboard.KeyboardRenderer.KeyHeight;
                 for (var i = 0; i < popupKeys.Count; i++)
                 {
-                    popupKeys[i].Resize(new Rect(i * width, 0, width, height), this);
+                    popupKeys[i].Resize(new Rect(i * width, 0, width, height));
                 }
-                
-                bool onLeftOfScreen = targetKey.Bounds.X < Keyboard.KeyboardBounds.Width / 2;
+
+                var onLeftOfScreen = targetKey.Bounds.X < Keyboard.KeyboardBounds.Width / 2;
                 var offsetY = Math.Max(0, targetKey.Bounds.Y - height);
-                Rect newBounds = new Rect(0, offsetY, width * popupKeys.Count, height);
+                var newBounds = new Rect(0, offsetY, width * popupKeys.Count, height);
                 if (onLeftOfScreen)
                 {
                     newBounds.X = Math.Max(0, targetKey.Bounds.X + targetKey.Bounds.Width - newBounds.Width);
@@ -156,21 +186,26 @@ namespace AcrylicKeyboard.Renderer
                 newBounds.X += Keyboard.KeyboardBounds.X;
                 newBounds.Y += Keyboard.KeyboardBounds.Y;
 
-                this.bounds = newBounds;
-                animation.AdjustFrame(0, (frame) => frame.WithPosition(bounds.Width / 2, bounds.Height / 2));
+                bounds = newBounds;
+                animation.AdjustFrame(0,
+                    (ref TransformAnimation.Builder builder) =>
+                        builder.WithPosition(bounds.Width / 2, bounds.Height / 2));
             }
         }
 
+        /// <summary>
+        ///     The target key at which the popup will be shown.
+        /// </summary>
         public KeyInstance TargetKey => targetKey;
 
         public KeyInstance GetKeyAt(int x, int y)
         {
-            var localX = x - (int)Bounds.X;
-            var localY = y - (int)Bounds.Y;
-            var keyboardX = x - (int)Keyboard.KeyboardBounds.X;
-            var keyboardY = y - (int)Keyboard.KeyboardBounds.Y;
-            if (TryGetDirectHit(localX, localY, out var result) || 
-                TryHitBaseKey(keyboardX, keyboardY, out result) ||
+            var localX = x - (int) Bounds.X;
+            var localY = y - (int) Bounds.Y;
+            var keyboardX = x - (int) Keyboard.KeyboardBounds.X;
+            var keyboardY = y - (int) Keyboard.KeyboardBounds.Y;
+            if (TryGetDirectHit(localX, localY, out var result) ||
+                TryHitTargetKey(keyboardX, keyboardY, out result) ||
                 TryGetHorizontalHit(localX, out result))
             {
                 return result;
@@ -179,6 +214,11 @@ namespace AcrylicKeyboard.Renderer
             return null;
         }
 
+        /// <summary>
+        ///     Tries to hit a key by checking point in rectangle collision.
+        /// </summary>
+        /// <param name="instance">The resulting <see cref="KeyInstance" /></param>
+        /// <returns>Determines whether or not the hit test was successful.</returns>
         private bool TryGetDirectHit(int x, int y, out KeyInstance instance)
         {
             for (var i = 0; i < popupKeys.Count; i++)
@@ -194,17 +234,28 @@ namespace AcrylicKeyboard.Renderer
             return false;
         }
 
-        private bool TryHitBaseKey(int x, int y, out KeyInstance instance)
+        /// <summary>
+        ///     Tries to hit the target key by checking point in rectangle collision.
+        /// </summary>
+        /// <param name="instance">The resulting <see cref="KeyInstance" /></param>
+        /// <returns>Determines whether or not the hit test was successful.</returns>
+        private bool TryHitTargetKey(int x, int y, out KeyInstance instance)
         {
             if (targetKey.Bounds.Contains(x, y))
             {
                 instance = targetKey;
                 return true;
             }
+
             instance = null;
             return false;
         }
 
+        /// <summary>
+        ///     Tries to hit a key by checking point in rectangle collision only along the x axis.
+        /// </summary>
+        /// <param name="instance">The resulting <see cref="KeyInstance" /></param>
+        /// <returns>Determines whether or not the hit test was successful.</returns>
         private bool TryGetHorizontalHit(int x, out KeyInstance instance)
         {
             for (var i = 0; i < popupKeys.Count; i++)
@@ -215,25 +266,24 @@ namespace AcrylicKeyboard.Renderer
                     return true;
                 }
             }
+
             instance = null;
             return false;
         }
 
-        public int KeyGap
-        {
-            get => Keyboard.KeyboardRenderer?.KeyGap ?? 4;
-        }
-
+        /// <summary>
+        ///     Gets the popup bounds.
+        /// </summary>
         public Rect Bounds => bounds;
 
-        public Keyboard Keyboard
-        {
-            get => keyboard;
-        }
-        
-        public bool IsVisible
-        {
-            get => targetKey != null;
-        }
+        /// <summary>
+        ///     Gets the keyboard.
+        /// </summary>
+        public Keyboard Keyboard => keyboard;
+
+        /// <summary>
+        ///     Determines whether or not the popup is visible.
+        /// </summary>
+        public bool IsVisible => targetKey != null;
     }
 }

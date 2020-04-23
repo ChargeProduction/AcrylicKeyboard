@@ -3,13 +3,13 @@
 namespace AcrylicKeyboard
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App
     {
         private void App_OnStartup(object sender, StartupEventArgs e)
         {
-            MainWindow mainView = new MainWindow();
+            var mainView = new MainWindow();
             mainView.Show();
         }
     }

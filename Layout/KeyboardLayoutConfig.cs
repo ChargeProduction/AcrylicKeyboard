@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -7,12 +6,12 @@ namespace AcrylicKeyboard.Layout
 {
     public class KeyboardLayoutConfig
     {
-        private String title;
-        private String font;
-        private String iconFont;
-        private Dictionary<String, KeySettings[][]> layouts = new Dictionary<string, KeySettings[][]>();
+        private string title;
+        private string font;
+        private string iconFont;
+        private Dictionary<string, KeySettings[][]> layouts = new Dictionary<string, KeySettings[][]>();
 
-        public static KeyboardLayoutConfig FromFile(String path)
+        public static KeyboardLayoutConfig FromFile(string path)
         {
             if (File.Exists(path))
             {
@@ -22,6 +21,9 @@ namespace AcrylicKeyboard.Layout
             return null;
         }
 
+        /// <summary>
+        ///     Gets or sets the layout title.
+        /// </summary>
         [JsonProperty("title")]
         public string Title
         {
@@ -29,6 +31,9 @@ namespace AcrylicKeyboard.Layout
             set => title = value;
         }
 
+        /// <summary>
+        ///     Gets or sets the keys display text font.
+        /// </summary>
         [JsonProperty("font")]
         public string Font
         {
@@ -36,6 +41,9 @@ namespace AcrylicKeyboard.Layout
             set => font = value;
         }
 
+        /// <summary>
+        ///     Gets or sets the keys icon font.
+        /// </summary>
         [JsonProperty("iconFont")]
         public string IconFont
         {
@@ -43,6 +51,9 @@ namespace AcrylicKeyboard.Layout
             set => iconFont = value;
         }
 
+        /// <summary>
+        ///     Gets or sets the key matrix for this layout.
+        /// </summary>
         [JsonProperty("layouts")]
         public Dictionary<string, KeySettings[][]> Layouts
         {

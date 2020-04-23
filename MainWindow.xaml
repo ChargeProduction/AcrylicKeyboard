@@ -12,55 +12,63 @@
         SnapsToDevicePixels="True">
     <Grid x:Name="RootElement">
         <Grid.RowDefinitions>
-            <RowDefinition Height="36"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="36" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Margin="4,0,4,4">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="{Binding Path=TitlebarWidth}"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="{Binding Path=TitlebarWidth}" />
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="34"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="34" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="5,5,5,0" MouseDown="TitlebarMouseDown" ZIndex="1">
-                    <Label FontFamily="Segoe UI Light" FontSize="14" Content="{Binding Path=TitlebarText}" Foreground="{Binding Path=TitlebarTextColor}"></Label>
+                    <Label FontFamily="Segoe UI Light" FontSize="14" Content="{Binding Path=TitlebarText}"
+                           Foreground="{Binding Path=TitlebarTextColor}" />
                 </Grid>
-                <Grid Grid.Column="1" Margin="6,8,6,1" ZIndex="2">
-                    <Button BorderBrush="{x:Null}" Click="CloseButtonClicked" Content="&#xE8BB;" FontSize="13" FontFamily="Segoe MDL2 Assets">
+                <Grid Grid.Column="1" Margin="5,5,5,0" MouseDown="TitlebarMouseDown" ZIndex="1">
+                    <Label FontFamily="Segoe UI Light" FontSize="14" Content="{Binding Path=Fps}"
+                           Foreground="{Binding Path=TitlebarTextColor}" />
+                </Grid>
+                <Grid Grid.Column="2" Margin="6,8,6,1" ZIndex="2">
+                    <Button BorderBrush="{x:Null}" Click="CloseButtonClicked" Content="&#xE8BB;" FontSize="13"
+                            FontFamily="Segoe MDL2 Assets">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
-                                <Setter Property="Foreground" Value="{Binding Path=TitlebarTextColor}"/>
-                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="{Binding Path=TitlebarTextColor}" />
+                                <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
                                             <Border Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center" />
                                             </Border>
                                         </ControlTemplate>
                                     </Setter.Value>
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#FF6A6A"/>
-                                        <Setter Property="Foreground" Value="{Binding Path=TitlebarCloseHoverColor}"/>
+                                        <Setter Property="Background" Value="#FF6A6A" />
+                                        <Setter Property="Foreground" Value="{Binding Path=TitlebarCloseHoverColor}" />
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Background" Value="#AF2A2A"/>
-                                        <Setter Property="Foreground" Value="{Binding Path=TitlebarCloseHoverColor}"/>
+                                        <Setter Property="Background" Value="#AF2A2A" />
+                                        <Setter Property="Foreground" Value="{Binding Path=TitlebarCloseHoverColor}" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -71,10 +79,10 @@
         </Grid>
         <Grid Grid.Row="1" x:Name="MainGrid" Margin="4,0,4,4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
         </Grid>
     </Grid>
