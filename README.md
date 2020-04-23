@@ -12,7 +12,6 @@ If you run the application you will see the following result:
 
 
 ## Work in progress
-* Cleanup and documentation (see cleanup branch)
 * Conversion into service like application
 * Api to attach to keyboard events such as visibility, window docking, key presses etc.
 * Implementing Tab-Key
