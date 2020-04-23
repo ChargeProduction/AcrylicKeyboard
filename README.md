@@ -12,7 +12,7 @@ If you run the application the keyboard opens automatically.
 
 
 ## Work in progress
-* Conversion into service like application
+* Conversion into service like application or library
 * Api to attach to keyboard events such as visibility, window docking, key presses etc.
 * Implementing Tab-Key
 * Implementing Undo, Redo Keys
@@ -21,4 +21,4 @@ If you run the application the keyboard opens automatically.
 
 ## Planned
 * Adding example themes with custom key renderers and behaviour
-* Extracting a renderer interface to support more platforms (e.g. UWP, Android, IOS...)
+* Abstracting the renderer to support more platforms (e.g. UWP, Android, IOS...)
