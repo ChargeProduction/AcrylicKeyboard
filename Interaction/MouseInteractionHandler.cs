@@ -34,6 +34,9 @@ namespace AcrylicKeyboard.Interaction
             Keyboard.Canvas.IsMouseDirectlyOverChanged -= OnIsMouseDirectlyOverChanged;
         }
 
+        /// <summary>
+        /// Checks which key was released and how it was released and can invoke the keys action.
+        /// </summary>
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
             capturedElement?.ReleaseMouseCapture();
@@ -61,17 +64,24 @@ namespace AcrylicKeyboard.Interaction
             }
         }
 
+        /// <summary>
+        /// Checks which key was pressed and updates its state.
+        /// </summary>
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             hasInvokedHoldingAction = false;
             downKey = hoveringKey;
             SetMouseState(downKey, KeyMouseState.Down);
-            KeyHoldingAction.InvokeAsync(downKey, OnHoldingCallback, KeyHoldingDelay);
+            KeyHoldingAction.InvokeDebounceAsync(downKey, OnHoldingCallback, KeyHoldingDelay);
             
+            // Capture the mouse to receive mouse up events even after the element was exited.
             capturedElement = (UIElement)sender;
             capturedElement.CaptureMouse();
         }
 
+        /// <summary>
+        /// The callback after a key was hold a specified amount of time.
+        /// </summary>
         private void OnHoldingCallback(KeyInstance obj)
         {
             if (obj != null && obj == downKey && obj.MouseState == KeyMouseState.Down)
@@ -88,6 +98,9 @@ namespace AcrylicKeyboard.Interaction
             InvalidatePointerPosition();
         }
         
+        /// <summary>
+        /// Recalculates the currently hovering key.
+        /// </summary>
         public override void InvalidatePointerPosition()
         {
             IKeyGroupRenderer renderer = null;
@@ -101,17 +114,20 @@ namespace AcrylicKeyboard.Interaction
                     break;
             }
             var newHoveringKey = renderer?.GetKeyAt((int)pointerPosition.X, (int)pointerPosition.Y);
-            
-            if (downKey != newHoveringKey)
+            if (newHoveringKey == null || hoveringKey.Settings.IsVisible)
             {
-                SetMouseState(downKey, KeyMouseState.Idle);
-                downKey = null;
-            }
-            if (hoveringKey != newHoveringKey)
-            {
-                SetMouseState(hoveringKey, KeyMouseState.Idle);
-                hoveringKey = newHoveringKey;
-                SetMouseState(newHoveringKey, KeyMouseState.Hover);
+                if (downKey != newHoveringKey)
+                {
+                    SetMouseState(downKey, KeyMouseState.Idle);
+                    downKey = null;
+                }
+
+                if (hoveringKey != newHoveringKey)
+                {
+                    SetMouseState(hoveringKey, KeyMouseState.Idle);
+                    hoveringKey = newHoveringKey;
+                    SetMouseState(newHoveringKey, KeyMouseState.Hover);
+                }
             }
         }
 
@@ -128,6 +144,7 @@ namespace AcrylicKeyboard.Interaction
             if (key != null)
             {;
                 key.MouseState = value;
+                Keyboard.InvalidateRenderer();
             }
         }
     }

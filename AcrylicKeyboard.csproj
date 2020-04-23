@@ -5,7 +5,7 @@
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProjectGuid>{FB97F88A-4933-4A58-9CE4-18BC55CA8A18}</ProjectGuid>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <RootNamespace>AcrylicKeyboard</RootNamespace>
         <AssemblyName>AcrylicKeyboard</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -64,21 +64,23 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
+        <Compile Include="Animation\Animator.cs" />
+        <Compile Include="Animation\AnimatorEntry.cs" />
+        <Compile Include="Animation\Easings.cs" />
+        <Compile Include="Animation\ITransformBuilder.cs" />
+        <Compile Include="Animation\TransformAnimation.cs" />
+        <Compile Include="Animation\TransformFrame.cs" />
         <Compile Include="Keyboard.cs" />
         <Compile Include="KeyboardDebug.cs" />
-        <Compile Include="Renderer\Animation\Easings.cs" />
-        <Compile Include="Renderer\Animation\ITransformBuilder.cs" />
-        <Compile Include="Renderer\Animation\TransformAnimation.cs" />
-        <Compile Include="Renderer\Animation\TransformFrame.cs" />
         <Compile Include="Renderer\DrawingCanvas.cs" />
         <Compile Include="Renderer\IKeyGroupRenderer.cs" />
         <Compile Include="Renderer\KeyboardPopupRenderer.cs" />
         <Compile Include="Renderer\KeyboardRenderer.cs" />
         <Compile Include="Renderer\KeyGeometryBuilder.cs" />
         <Compile Include="Renderer\KeyRenderer.cs" />
-        <Compile Include="Renderer\Keys\RegularKeyRender.cs" />
         <Compile Include="Theme\KeyboardTheme.cs" />
         <Compile Include="Theme\ThemeColor.cs" />
+        <Compile Include="Util\MovingAverage.cs" />
         <Compile Include="WinApiHelper.cs" />
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -98,7 +100,7 @@
         <Compile Include="Interaction\KeyboardAction.cs" />
         <Compile Include="Interaction\KeyHoldingAction.cs" />
         <Compile Include="Interaction\KeyMouseState.cs" />
-        <Compile Include="Interaction\KeyRole.cs" />
+        <Compile Include="Interaction\KeyModifier.cs" />
         <Compile Include="Interaction\MouseInteractionHandler.cs" />
         <Compile Include="Layout\KeyboardLayoutConfig.cs" />
         <Compile Include="Layout\KeyInstance.cs" />

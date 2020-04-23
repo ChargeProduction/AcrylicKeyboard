@@ -22,6 +22,9 @@ namespace AcrylicKeyboard.Layout
             return null;
         }
 
+        /// <summary>
+        /// Gets or sets the layout title.
+        /// </summary>
         [JsonProperty("title")]
         public string Title
         {
@@ -29,6 +32,9 @@ namespace AcrylicKeyboard.Layout
             set => title = value;
         }
 
+        /// <summary>
+        /// Gets or sets the keys display text font.
+        /// </summary>
         [JsonProperty("font")]
         public string Font
         {
@@ -36,6 +42,9 @@ namespace AcrylicKeyboard.Layout
             set => font = value;
         }
 
+        /// <summary>
+        /// Gets or sets the keys icon font.
+        /// </summary>
         [JsonProperty("iconFont")]
         public string IconFont
         {
@@ -43,6 +52,9 @@ namespace AcrylicKeyboard.Layout
             set => iconFont = value;
         }
 
+        /// <summary>
+        /// Gets or sets the key matrix for this layout.
+        /// </summary>
         [JsonProperty("layouts")]
         public Dictionary<string, KeySettings[][]> Layouts
         {

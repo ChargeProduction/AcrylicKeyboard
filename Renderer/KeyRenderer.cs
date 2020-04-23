@@ -9,16 +9,27 @@ namespace AcrylicKeyboard.Renderer
 {
     public class KeyRenderer
     {
+        // private DrawingGroup backingStore = new DrawingGroup();
+        
         private static SolidColorBrush focusBackgroundBrush = new SolidColorBrush(Colors.Fuchsia);
         private static SolidColorBrush focusForegroundBrush = new SolidColorBrush(Colors.Fuchsia);
 
-        public void BeforeRender(Keyboard keyboard)
+        /// <summary>
+        /// Initializes the renderer once on startup.
+        /// </summary>
+        /// <param name="systemContext"></param>
+        internal void Init(DrawingContext systemContext)
+        {
+            //TODO optimize rendering speed by using: systemContext.DrawDrawing(backingStore);
+        }
+        
+        public void Update(Keyboard keyboard, double delta)
         {
             focusBackgroundBrush.Color = keyboard.Theme.GetColor(ThemeColor.KeyDownBackground);
             focusForegroundBrush.Color = keyboard.Theme.GetColor(ThemeColor.KeyDownForeground);
         }
         
-        public void Render(Keyboard keyboard, DrawingContext c, KeyInstance instance, IKeyGroupRenderer renderer)
+        public void Render(Keyboard keyboard, DrawingContext context, KeyInstance instance, IKeyGroupRenderer renderer)
         {
             if (instance.Settings.IsVisible)
             {
@@ -27,30 +38,39 @@ namespace AcrylicKeyboard.Renderer
                 double actualHeight = instance.Bounds.Height - gap * 2;
                 if (actualWidth > 0 && actualHeight > 0)
                 {
-                    c.PushTransform(new TranslateTransform(instance.Bounds.X, instance.Bounds.Y));
+                    context.PushTransform(new TranslateTransform(instance.Bounds.X, instance.Bounds.Y));
 
                     var backgroundColor = instance.BackgroundBrush;
                     var foregroundColor = instance.ForegroundBrush;
 
-                    var role = instance.Settings.KnownRole;
-                    if ((role != KeyRole.Shift && keyboard.IsModifierActive(role)) || 
-                        (role == KeyRole.Shift && WinApiHelper.IsCapsLock))
+                    var role = instance.Settings.KnownModifier;
+                    if ((role != KeyModifier.Shift && keyboard.IsModifierActive(role)) || 
+                        (role == KeyModifier.Shift && WinApiHelper.IsCapsLock))
                     {
                         backgroundColor = focusBackgroundBrush;
                         foregroundColor = focusForegroundBrush;
                     }
                     
-                    c.DrawRectangle(backgroundColor, null, new Rect(gap, gap, actualWidth, actualHeight));
+                    context.DrawRectangle(backgroundColor, null, new Rect(gap, gap, actualWidth, actualHeight));
 
-                    RenderText(c, foregroundColor, instance, instance.PrimaryKey, instance.PrimaryBounds);
-                    RenderText(c, foregroundColor, instance, instance.SecondaryKey, instance.SecondaryBounds, false);
+                    RenderText(context, foregroundColor, instance, instance.PrimaryKey, instance.PrimaryBounds);
+                    RenderText(context, foregroundColor, instance, instance.SecondaryKey, instance.SecondaryBounds, false);
 
-                    c.Pop();
+                    context.Pop();
                 }
             }
         }
         
-        private void RenderText(DrawingContext c, SolidColorBrush color, KeyInstance instance, KeyGeometryBuilder keyGeometryBuilder, Rect containerBounds, bool centered = true)
+        /// <summary>
+        /// Renders a <see cref="KeyGeometryBuilder"/> text within a rectangle container.
+        /// </summary>
+        /// <param name="context">The drawing context.</param>
+        /// <param name="color">The text color brush.</param>
+        /// <param name="instance">The <see cref="KeyInstance"/> which is being rendered.</param>
+        /// <param name="keyGeometryBuilder">The <see cref="KeyGeometryBuilder"/> which holds the <see cref="FormattedText"/>.</param>
+        /// <param name="containerBounds">The bounds of the text.</param>
+        /// <param name="centered">Determines whether or not the text should be centered around the x axis.</param>
+        private void RenderText(DrawingContext context, SolidColorBrush color, KeyInstance instance, KeyGeometryBuilder keyGeometryBuilder, Rect containerBounds, bool centered = true)
         {
             var formattedText = keyGeometryBuilder.FormattedText;
             if (formattedText != null)
@@ -77,18 +97,26 @@ namespace AcrylicKeyboard.Renderer
                 
                 if (KeyboardDebug.DebugKeyTextLayout)
                 {
-                    c.DrawRectangle(null, new Pen(Brushes.Green, 1.0), new Rect(0, 0, instance.Bounds.Width, instance.Bounds.Height));
-                    c.DrawRectangle(null, new Pen(Brushes.Yellow, 1.0), containerBounds);
+                    context.DrawRectangle(null, new Pen(Brushes.Green, 1.0), new Rect(0, 0, instance.Bounds.Width, instance.Bounds.Height));
+                    context.DrawRectangle(null, new Pen(Brushes.Yellow, 1.0), containerBounds);
                 }
-                c.DrawText(formattedText, new Point(offsetX, offsetY));
+                context.DrawText(formattedText, new Point(offsetX, offsetY));
             }
         }
 
+        /// <summary>
+        /// Converts pixel to points.
+        /// Used to convert pixel into font size.
+        /// </summary>
         public double PixelToPoint(double pixels)
         {
             return pixels / 1.33333;
         }
 
+        /// <summary>
+        /// Converts points to pixels.
+        /// Used to convert font size into pixel.
+        /// </summary>
         public double PointToPixel(double points)
         {
             return points * 1.33333;

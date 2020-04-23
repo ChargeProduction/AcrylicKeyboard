@@ -4,17 +4,23 @@ namespace AcrylicKeyboard.Events
 {
     public class ResizeEventArgs
     {
-        private Size panelSize;
+        private Size canvasSize;
         private Rect keyboardBounds;
 
-        public ResizeEventArgs(Size panelSize, Rect keyboardBounds)
+        public ResizeEventArgs(Size canvasSize, Rect keyboardBounds)
         {
-            this.panelSize = panelSize;
+            this.canvasSize = canvasSize;
             this.keyboardBounds = keyboardBounds;
         }
 
-        public Size PanelSize => panelSize;
+        /// <summary>
+        /// Gets the new canvas size.
+        /// </summary>
+        public Size CanvasSize => canvasSize;
 
+        /// <summary>
+        /// Gets the new keyboard bounds.
+        /// </summary>
         public Rect KeyboardBounds => keyboardBounds;
     }
 }

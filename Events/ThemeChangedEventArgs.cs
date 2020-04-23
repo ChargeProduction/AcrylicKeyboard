@@ -11,6 +11,9 @@ namespace AcrylicKeyboard.Events
             this.theme = theme;
         }
 
+        /// <summary>
+        /// Gets the new keyboard theme.
+        /// </summary>
         public KeyboardTheme Theme => theme;
     }
 }

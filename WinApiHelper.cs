@@ -7,7 +7,6 @@ namespace AcrylicKeyboard
 {
     class WinApiHelper
     {
-        
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_NOACTIVATE = 0x08000000;
 

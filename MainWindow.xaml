@@ -33,12 +33,16 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="34"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="5,5,5,0" MouseDown="TitlebarMouseDown" ZIndex="1">
                     <Label FontFamily="Segoe UI Light" FontSize="14" Content="{Binding Path=TitlebarText}" Foreground="{Binding Path=TitlebarTextColor}"></Label>
                 </Grid>
-                <Grid Grid.Column="1" Margin="6,8,6,1" ZIndex="2">
+                <Grid Grid.Column="1" Margin="5,5,5,0" MouseDown="TitlebarMouseDown" ZIndex="1">
+                    <Label FontFamily="Segoe UI Light" FontSize="14" Content="{Binding Path=Fps}" Foreground="{Binding Path=TitlebarTextColor}"></Label>
+                </Grid>
+                <Grid Grid.Column="2" Margin="6,8,6,1" ZIndex="2">
                     <Button BorderBrush="{x:Null}" Click="CloseButtonClicked" Content="&#xE8BB;" FontSize="13" FontFamily="Segoe MDL2 Assets">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">

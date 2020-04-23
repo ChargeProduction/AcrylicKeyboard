@@ -9,7 +9,6 @@ namespace AcrylicKeyboard.Interaction
         CursorRight,
         Delete,
         Enter,
-        Send,
         ChangeLanguage,
         ReloadKeyboard
     }

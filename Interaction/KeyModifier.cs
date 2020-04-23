@@ -1,8 +1,8 @@
 namespace AcrylicKeyboard.Interaction
 {
-    public enum KeyRole
+    public enum KeyModifier
     {
-        Default,
+        None,
         Shift,
         Ctrl,
         Alt,

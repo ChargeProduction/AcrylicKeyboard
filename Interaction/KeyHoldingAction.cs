@@ -15,10 +15,10 @@ namespace AcrylicKeyboard.Interaction
         /// Creates an asynchronous tasks which will only invoke the callback if this method was not
         /// called during the defined delay.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="callback"></param>
-        /// <param name="delayMs"></param>
-        public static void InvokeAsync(KeyInstance key, Action<KeyInstance> callback, int delayMs)
+        /// <param name="key">The key object.</param>
+        /// <param name="callback">The callback which will be called after the delay.</param>
+        /// <param name="delayMs">The delay in milliseconds.</param>
+        public static void InvokeDebounceAsync(KeyInstance key, Action<KeyInstance> callback, int delayMs)
         {
             Debug.Assert(delayMs >= 0);
             int currentReference = ++holdingReference;

@@ -17,6 +17,9 @@ namespace AcrylicKeyboard.Renderer
             this.font = font;
         }
 
+        /// <summary>
+        /// Creates the new formatted text object.
+        /// </summary>
         private void BuildText()
         {
             if (!String.IsNullOrEmpty(text?.Trim()))
@@ -28,6 +31,9 @@ namespace AcrylicKeyboard.Renderer
             }
         }
 
+        /// <summary>
+        /// Gets the formatted text object.
+        /// </summary>
         public FormattedText FormattedText
         {
             get
@@ -40,6 +46,9 @@ namespace AcrylicKeyboard.Renderer
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text.
+        /// </summary>
         public string Text
         {
             get => text;

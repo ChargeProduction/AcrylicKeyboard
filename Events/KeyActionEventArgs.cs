@@ -8,19 +8,28 @@ namespace AcrylicKeyboard.Events
     {
         private KeyboardAction action;
         private String text;
-        private List<KeyRole> activeModifiers;
+        private List<KeyModifier> activeModifiers;
 
-        public KeyActionEventArgs(KeyboardAction action, string text = null, List<KeyRole> activeModifiers = null)
+        public KeyActionEventArgs(KeyboardAction action, string text = null, List<KeyModifier> activeModifiers = null)
         {
             this.action = action;
             this.text = text;
-            this.activeModifiers = activeModifiers ?? new List<KeyRole>();
+            this.activeModifiers = activeModifiers ?? new List<KeyModifier>();
         }
 
+        /// <summary>
+        /// Gets the key action.
+        /// </summary>
         public KeyboardAction Action => action;
 
+        /// <summary>
+        /// Gets the inserted text.
+        /// </summary>
         public string Text => text;
 
-        public IReadOnlyList<KeyRole> ActiveModifiers => activeModifiers;
+        /// <summary>
+        /// Gets a list of active modifiers.
+        /// </summary>
+        public IReadOnlyList<KeyModifier> ActiveModifiers => activeModifiers;
     }
 }
