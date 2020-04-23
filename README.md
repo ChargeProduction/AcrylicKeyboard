@@ -4,7 +4,7 @@ A highly customizable alternative to windows touch keyboard using WPF.
 ## Warning: This is a very early release which may contain errors or slow code.
 
 
-If you run the application you will see the following result:
+If you run the application the keyboard opens automatically.
 
 ![Functional layout][base_layout_example]
 
