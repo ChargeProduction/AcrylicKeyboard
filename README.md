@@ -1,7 +1,7 @@
 # AcrylicKeyboard (work in progress)
 A highly customizable alternative to windows touch keyboard using WPF.
 
-## Warning: This is a very early release which may contain errors or slow code.
+## Warning: This project is not actively maintained. Source code may be used at own risk.
 
 
 If you run the application the keyboard opens automatically.
@@ -18,7 +18,3 @@ If you run the application the keyboard opens automatically.
 * Implementing Undo, Redo Keys
 * Uncoupling keypress actions from keyboard into command pattern
 * Adding different window modes for "picture-in-picture" and windowed keyboards
-
-## Planned
-* Adding example themes with custom key renderers and behaviour
-* Abstracting the renderer to support more platforms (e.g. UWP, Android, IOS...)
